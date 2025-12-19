@@ -41,19 +41,16 @@
       opacity: 0.5;
     }
 
-    /* UFO Tetap Rata Tengah */
     @keyframes floatUFO {
       0%, 100% { transform: translateX(-50%) translateY(0) rotate(-2deg); }
       50% { transform: translateX(-50%) translateY(-15px) rotate(2deg); }
     }
 
-    /* Roket Menu */
     @keyframes floatMenuRocket {
       0%, 100% { transform: translateY(0) rotate(-5deg); }
-      50% { transform: translateY(-20px) rotate(5deg); }
+      50% { transform: translateY(-25px) rotate(5deg); }
     }
 
-    /* Roket Gameplay: Pijaran Plasma */
     @keyframes rocketDrive {
       0%, 100% { transform: translateX(-50%) scale(1); filter: drop-shadow(0 0 15px rgba(34,211,238,0.5)); }
       50% { transform: translateX(-50%) scale(1.05) translateY(-5px); filter: drop-shadow(0 0 30px rgba(34,211,238,1)); }
@@ -90,6 +87,10 @@
       scrollbar-width: none;
     }
     .custom-scroll::-webkit-scrollbar { display: none; }
+
+    .glow-text {
+      text-shadow: 0 0 10px rgba(34, 211, 238, 0.8), 0 0 20px rgba(34, 211, 238, 0.4);
+    }
   </style>
 </head>
 <body class="text-white">
@@ -98,7 +99,21 @@
     
     <div id="starBg"></div>
 
-    <header class="relative z-[150] flex-none px-4 py-3 bg-slate-900/80 backdrop-blur-md border-b border-white/10 flex justify-between items-center shadow-lg">
+    <div id="openingScreen" class="absolute inset-0 z-[300] bg-slate-900 flex flex-col items-center justify-center p-6 text-center">
+        <div class="mb-8 flex justify-center w-full">
+            <div style="animation: floatMenuRocket 3s ease-in-out infinite;">
+                <span class="text-9xl block drop-shadow-[0_0_30px_rgba(139,92,246,0.8)]">🚀</span>
+            </div>
+        </div>
+        <h1 class="text-4xl font-black mb-2 tracking-tighter text-white uppercase italic glow-text">UFO PERKALIAN</h1>
+        <p class="text-lg font-bold text-cyan-400 mb-12 tracking-[0.2em] uppercase">by mathnology</p>
+        
+        <button onclick="showMenu()" class="lvl-btn px-12 py-5 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-black text-2xl shadow-[0_0_20px_rgba(6,182,212,0.5)] active:scale-95 transition-all border-b-4 border-black/30 animate-pulse">
+            START
+        </button>
+    </div>
+
+    <header id="gameHeader" class="hidden relative z-[150] flex-none px-4 py-3 bg-slate-900/80 backdrop-blur-md border-b border-white/10 flex justify-between items-center shadow-lg">
       <div class="flex-1">
         <h1 class="text-base font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 uppercase italic">
           UFO PERKALIAN
@@ -122,7 +137,7 @@
 
     <main class="flex-1 relative w-full overflow-hidden">
       
-      <div id="startScreen" class="absolute inset-0 z-[80] bg-slate-900/95 backdrop-blur-sm custom-scroll">
+      <div id="startScreen" class="hidden absolute inset-0 z-[80] bg-slate-900/95 backdrop-blur-sm custom-scroll">
         <div class="min-h-full flex flex-col items-center justify-center p-6 text-center">
           
           <div class="mb-6 flex justify-center w-full">
@@ -131,9 +146,9 @@
             </div>
           </div>
 
-          <h2 class="text-3xl font-black mb-1 text-white uppercase italic tracking-tighter">UFO PERKALIAN</h2>
+          <h2 class="text-3xl font-black mb-1 text-white uppercase italic tracking-tighter">PILIH LEVEL</h2>
           <p class="text-xs text-red-300 bg-red-900/30 px-4 py-1 rounded-full mb-8 border border-red-500/20 inline-block font-bold">
-            2 NYAWA ❤️❤️
+            MISI 2 NYAWA ❤️❤️
           </p>
 
           <div class="grid grid-cols-5 gap-3 mb-8 w-full max-w-xs relative">
@@ -202,13 +217,12 @@
 
     const sfxCorrect = new Audio('https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3');
     const sfxWrong = new Audio('https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3');
-    const sfxMenu = new Audio('https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3');
     
-    // EFEK MULAI BARU (Lebih Keren: Space Cinematic Warp)
-    const sfxStart = new Audio('https://assets.mixkit.co/active_storage/sfx/232/232-preview.mp3');
+    // SUARA KLIK MENU: Diperbarui agar lebih NYARING (Sharp Pop)
+    const sfxMenu = new Audio('https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3');
+    sfxMenu.volume = 1.0; // Volume Maksimal
 
-    // Pre-load audio
-    [bgMusic, sfxCorrect, sfxWrong, sfxMenu, sfxStart].forEach(a => a.load());
+    const sfxStart = new Audio('https://assets.mixkit.co/active_storage/sfx/232/232-preview.mp3');
 
     // Buat Bintang
     const starContainer = document.getElementById('starBg');
@@ -222,22 +236,23 @@
       starContainer.appendChild(s);
     }
 
-    // FUNGSI UTAMA: Memilih Level & Mengaktifkan Audio Browser
+    function showMenu() {
+        bgMusic.play().catch(() => {});
+        sfxMenu.currentTime = 0;
+        sfxMenu.play().catch(() => {});
+
+        document.getElementById('openingScreen').classList.add('hidden');
+        document.getElementById('startScreen').classList.remove('hidden');
+        document.getElementById('gameHeader').classList.remove('hidden');
+    }
+
     function selectLevel(num) {
-      // UNLOCK AUDIO: Trik memutar-jeda instan agar browser mengizinkan audio berikutnya
-      if (bgMusic.paused) {
-          bgMusic.play().catch(() => {}); 
-      }
-      
-      // Mainkan suara menu
+      // Efek suara nyaring saat pilih level
       sfxMenu.currentTime = 0;
-      sfxMenu.play().catch(() => {
-          console.log("Audio diblokir browser. Klik salah satu tombol lagi!");
-      });
+      sfxMenu.play().catch(() => {});
 
       state.level = num;
       
-      // Update Visual Tombol
       document.querySelectorAll('.lvl-btn').forEach(btn => {
         if(btn.innerText.length <= 2) {
             btn.classList.remove('bg-yellow-400', 'text-black', 'ring-4', 'ring-yellow-300/50');
@@ -257,15 +272,11 @@
     }
 
     function startGame() {
-      // EFEK MULAI KEREN
       sfxStart.currentTime = 0;
       sfxStart.play().catch(() => {});
-
-      // MATIKAN MUSIK KETIKA PERMAINAN DIMULAI
       bgMusic.pause();
       bgMusic.currentTime = 0;
 
-      // Unlock sfx lain
       [sfxCorrect, sfxWrong].forEach(s => {
         s.play().then(() => { s.pause(); s.currentTime = 0; }).catch(() => {});
       });
@@ -279,7 +290,6 @@
       document.getElementById('questionBox').classList.remove('hidden');
       document.getElementById('playerRocket').classList.remove('hidden');
       
-      // Jeda soal muncul sedikit agar sfx mulai terdengar dulu
       setTimeout(nextQuestion, 500);
     }
 
@@ -315,7 +325,7 @@
         const colors = ['#f472b6', '#34d399', '#60a5fa'];
         ufo.innerHTML = `
           <div class="text-6xl drop-shadow-xl">🛸</div>
-          <div class="mt-[-8px] bg-slate-900/95 border-2 px-4 py-2 rounded-full font-black text-white min-w-[4rem] text-center" style="border-color: ${colors[index]}">
+          <div class="mt-[-8px] bg-slate-900/95 border-2 px-4 py-2 rounded-full font-black text-white min-w-[4rem] text-center shadow-lg" style="border-color: ${colors[index]}">
             ${opt}
           </div>
         `;
@@ -377,7 +387,6 @@
     }
 
     function resetGame() {
-      // Musik nyala lagi di menu
       bgMusic.play().catch(() => {});
       sfxMenu.currentTime = 0; sfxMenu.play().catch(() => {});
       
