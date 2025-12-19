@@ -32,9 +32,10 @@
       opacity: 0.8;
     }
 
+    /* PERBAIKAN: Menambahkan translateX(-50%) ke dalam keyframes agar tetap rata tengah saat animasi berjalan */
     @keyframes floatUFO {
-      0%, 100% { transform: translateY(0) rotate(-2deg); }
-      50% { transform: translateY(-15px) rotate(2deg); }
+      0%, 100% { transform: translateX(-50%) translateY(0) rotate(-2deg); }
+      50% { transform: translateX(-50%) translateY(-15px) rotate(2deg); }
     }
     
     @keyframes popIn {
@@ -44,10 +45,13 @@
 
     .ufo-container {
       position: absolute;
+      /* translateX(-50%) ini adalah posisi dasar sebelum animasi */
       transform: translateX(-50%); 
       animation: floatUFO 3s ease-in-out infinite;
       cursor: pointer;
       z-index: 20;
+      /* Memastikan lebar container pas dengan isinya agar centering akurat */
+      width: max-content;
     }
     
     .ufo-container.exploding {
@@ -55,6 +59,7 @@
       pointer-events: none;
     }
 
+    /* PERBAIKAN: Menambahkan translateX(-50%) juga pada animasi ledakan */
     @keyframes explode {
       0% { transform: translateX(-50%) scale(1); opacity: 1; }
       100% { transform: translateX(-50%) scale(0); opacity: 0; }
@@ -198,8 +203,9 @@
     }
 
     function startGame() {
-      // Unmute sounds for some browsers that block autoplay
-      sfxCorrect.play().then(() => { sfxCorrect.pause(); sfxCorrect.currentTime = 0; });
+      // Pre-load sounds
+      sfxCorrect.play().then(() => { sfxCorrect.pause(); sfxCorrect.currentTime = 0; }).catch(() => {});
+      sfxWrong.play().then(() => { sfxWrong.pause(); sfxWrong.currentTime = 0; }).catch(() => {});
       
       state.active = true; state.score = 0; state.lives = 2; state.qIndex = 0; state.correct = 0; state.wrong = 0;
       updateStats();
@@ -234,11 +240,13 @@
 
     function spawnUFOs(options, correctAnswer) {
       const container = document.getElementById('gameArea');
-      const xPositions = [20, 50, 80]; 
+      // PERBAIKAN JARAK: Menggunakan 25%, 50%, 75% agar lebih rapat di tengah untuk portrait
+      const xPositions = [25, 50, 75]; 
       
       options.forEach((opt, index) => {
         const ufo = document.createElement('div');
-        ufo.className = 'ufo-container flex flex-col items-center';
+        // Menambahkan w-max-content agar centering akurat
+        ufo.className = 'ufo-container flex flex-col items-center w-max';
         const colors = ['#f472b6', '#34d399', '#60a5fa'];
         ufo.innerHTML = `
           <div class="text-5xl filter drop-shadow-md">🛸</div>
@@ -257,10 +265,7 @@
     function checkAnswer(selected, correct, element) {
       if(element.classList.contains('exploding')) return;
       if(selected === correct) {
-        // MAINKAN SUARA BENAR
-        sfxCorrect.currentTime = 0;
-        sfxCorrect.play();
-
+        sfxCorrect.currentTime = 0; sfxCorrect.play().catch(() => {});
         state.score += 10; state.correct++;
         element.classList.add('exploding');
         setTimeout(() => {
@@ -269,10 +274,7 @@
           else { updateStats(); nextQuestion(); }
         }, 500);
       } else {
-        // MAINKAN SUARA SALAH
-        sfxWrong.currentTime = 0;
-        sfxWrong.play();
-
+        sfxWrong.currentTime = 0; sfxWrong.play().catch(() => {});
         state.wrong++; state.lives--;
         element.querySelector('div:last-child').style.backgroundColor = '#ef4444';
         updateStats();
