@@ -32,22 +32,22 @@
       opacity: 0.8;
     }
 
-    /* ANIMASI UFO (Menggunakan TranslateX -50% agar rata tengah kolom) */
+    /* Animasi UFO - Rata Tengah Kolom */
     @keyframes floatUFO {
       0%, 100% { transform: translateX(-50%) translateY(0) rotate(-2deg); }
       50% { transform: translateX(-50%) translateY(-15px) rotate(2deg); }
     }
 
-    /* ANIMASI ROKET MENU (Tanpa TranslateX agar pas di tengah flex container) */
+    /* Animasi Roket Menu - Rata Tengah Sempurna */
     @keyframes floatMenuRocket {
-      0%, 100% { transform: translateY(0) rotate(-3deg); }
-      50% { transform: translateY(-20px) rotate(3deg); }
+      0%, 100% { transform: translateY(0) rotate(-5deg); }
+      50% { transform: translateY(-25px) rotate(5deg); }
     }
 
-    /* ANIMASI ROKET SAAT BERMAIN (Efek bergetar & cahaya) */
+    /* Animasi Roket Gameplay - Getaran Mesin & Plasma */
     @keyframes rocketDrive {
-      0%, 100% { transform: translateX(-50%) translateY(0); filter: drop-shadow(0 0 10px rgba(34,211,238,0.4)); }
-      50% { transform: translateX(-52%) translateY(-5px); filter: drop-shadow(0 0 25px rgba(34,211,238,0.8)); }
+      0%, 100% { transform: translateX(-50%) scale(1); filter: drop-shadow(0 0 15px rgba(34,211,238,0.5)); }
+      50% { transform: translateX(-50%) scale(1.08) translateY(-4px); filter: drop-shadow(0 0 30px rgba(34,211,238,1)); }
     }
     
     @keyframes popIn {
@@ -87,11 +87,11 @@
 
     <header class="relative z-30 flex-none px-4 py-3 bg-slate-900/80 backdrop-blur-md border-b border-white/10 flex justify-between items-center shadow-lg">
       <div class="flex-1">
-        <h1 class="text-base font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 leading-tight">
+        <h1 class="text-base font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 leading-tight tracking-tight">
           UFO PERKALIAN
         </h1>
         <div class="text-sm mt-1 flex items-center gap-1">
-          <span class="text-[10px] text-gray-400 uppercase tracking-wider">Nyawa:</span>
+          <span class="text-[10px] text-gray-400 uppercase tracking-wider">Misi:</span>
           <span id="livesDisplay" class="text-lg leading-none filter drop-shadow-md">❤️❤️</span>
         </div>
       </div>
@@ -112,64 +112,67 @@
       
       <div id="startScreen" class="absolute inset-0 z-50 bg-slate-900/95 backdrop-blur-sm custom-scroll">
         <div class="min-h-full flex flex-col items-center justify-center p-6 text-center">
-          <div class="mb-4" style="animation: floatMenuRocket 4s ease-in-out infinite;">
-            <span class="text-7xl block drop-shadow-[0_0_20px_rgba(167,139,250,0.6)]">🚀</span>
+          
+          <div class="mb-6 flex justify-center w-full">
+            <div style="animation: floatMenuRocket 4s ease-in-out infinite;">
+                <span class="text-8xl block drop-shadow-[0_0_25px_rgba(167,139,250,0.7)]">🚀</span>
+            </div>
           </div>
 
-          <h2 class="text-3xl font-black mb-1 tracking-tight text-white uppercase">UFO PERKALIAN</h2>
-          <p class="text-xs text-red-300 bg-red-900/30 px-4 py-1 rounded-full mb-8 border border-red-500/20 inline-block">
-            Misi: 2 Nyawa ❤️❤️
+          <h2 class="text-3xl font-black mb-1 tracking-tighter text-white uppercase italic">UFO PERKALIAN</h2>
+          <p class="text-xs text-red-300 bg-red-900/30 px-4 py-1 rounded-full mb-8 border border-red-500/20 inline-block font-bold">
+            2 Nyawa ❤️❤️
           </p>
 
           <div class="grid grid-cols-5 gap-3 mb-8 w-full max-w-xs">
-             <button onclick="selectLevel(1)" class="lvl-btn aspect-square rounded-xl bg-indigo-600 border-b-4 border-indigo-800 font-bold text-lg text-white transition-all active:scale-90">1</button>
-             <button onclick="selectLevel(2)" class="lvl-btn aspect-square rounded-xl bg-indigo-600 border-b-4 border-indigo-800 font-bold text-lg text-white transition-all active:scale-90">2</button>
-             <button onclick="selectLevel(3)" class="lvl-btn aspect-square rounded-xl bg-indigo-600 border-b-4 border-indigo-800 font-bold text-lg text-white transition-all active:scale-90">3</button>
-             <button onclick="selectLevel(4)" class="lvl-btn aspect-square rounded-xl bg-indigo-600 border-b-4 border-indigo-800 font-bold text-lg text-white transition-all active:scale-90">4</button>
-             <button onclick="selectLevel(5)" class="lvl-btn aspect-square rounded-xl bg-indigo-600 border-b-4 border-indigo-800 font-bold text-lg text-white transition-all active:scale-90">5</button>
-             <button onclick="selectLevel(6)" class="lvl-btn aspect-square rounded-xl bg-indigo-600 border-b-4 border-indigo-800 font-bold text-lg text-white transition-all active:scale-90">6</button>
-             <button onclick="selectLevel(7)" class="lvl-btn aspect-square rounded-xl bg-indigo-600 border-b-4 border-indigo-800 font-bold text-lg text-white transition-all active:scale-90">7</button>
-             <button onclick="selectLevel(8)" class="lvl-btn aspect-square rounded-xl bg-indigo-600 border-b-4 border-indigo-800 font-bold text-lg text-white transition-all active:scale-90">8</button>
-             <button onclick="selectLevel(9)" class="lvl-btn aspect-square rounded-xl bg-indigo-600 border-b-4 border-indigo-800 font-bold text-lg text-white transition-all active:scale-90">9</button>
-             <button onclick="selectLevel(10)" class="lvl-btn aspect-square rounded-xl bg-indigo-600 border-b-4 border-indigo-800 font-bold text-lg text-white transition-all active:scale-90">10</button>
+             <button onclick="selectLevel(1)" class="lvl-btn aspect-square rounded-xl bg-indigo-600 border-b-4 border-indigo-800 font-bold text-lg text-white transition-all active:scale-90 shadow-lg">1</button>
+             <button onclick="selectLevel(2)" class="lvl-btn aspect-square rounded-xl bg-indigo-600 border-b-4 border-indigo-800 font-bold text-lg text-white transition-all active:scale-90 shadow-lg">2</button>
+             <button onclick="selectLevel(3)" class="lvl-btn aspect-square rounded-xl bg-indigo-600 border-b-4 border-indigo-800 font-bold text-lg text-white transition-all active:scale-90 shadow-lg">3</button>
+             <button onclick="selectLevel(4)" class="lvl-btn aspect-square rounded-xl bg-indigo-600 border-b-4 border-indigo-800 font-bold text-lg text-white transition-all active:scale-90 shadow-lg">4</button>
+             <button onclick="selectLevel(5)" class="lvl-btn aspect-square rounded-xl bg-indigo-600 border-b-4 border-indigo-800 font-bold text-lg text-white transition-all active:scale-90 shadow-lg">5</button>
+             <button onclick="selectLevel(6)" class="lvl-btn aspect-square rounded-xl bg-indigo-600 border-b-4 border-indigo-800 font-bold text-lg text-white transition-all active:scale-90 shadow-lg">6</button>
+             <button onclick="selectLevel(7)" class="lvl-btn aspect-square rounded-xl bg-indigo-600 border-b-4 border-indigo-800 font-bold text-lg text-white transition-all active:scale-90 shadow-lg">7</button>
+             <button onclick="selectLevel(8)" class="lvl-btn aspect-square rounded-xl bg-indigo-600 border-b-4 border-indigo-800 font-bold text-lg text-white transition-all active:scale-90 shadow-lg">8</button>
+             <button onclick="selectLevel(9)" class="lvl-btn aspect-square rounded-xl bg-indigo-600 border-b-4 border-indigo-800 font-bold text-lg text-white transition-all active:scale-90 shadow-lg">9</button>
+             <button onclick="selectLevel(10)" class="lvl-btn aspect-square rounded-xl bg-indigo-600 border-b-4 border-indigo-800 font-bold text-lg text-white transition-all active:scale-90 shadow-lg">10</button>
           </div>
 
-          <div id="selectionMsg" class="h-6 text-yellow-300 font-semibold mb-4 text-sm">Pilih angka di atas</div>
-          <button id="startBtn" onclick="startGame()" disabled class="w-full max-w-xs py-4 rounded-full bg-gray-600 text-gray-300 font-bold text-xl shadow-lg disabled:opacity-50 transition-all active:scale-95">MULAI ▶️</button>
+          <div id="selectionMsg" class="h-6 text-yellow-300 font-bold mb-4 text-sm tracking-wide">Pilih level untuk memulai!</div>
+          <button id="startBtn" onclick="startGame()" disabled class="w-full max-w-xs py-4 rounded-full bg-gray-600 text-gray-400 font-black text-xl shadow-xl disabled:opacity-50 transition-all active:scale-95 border-b-4 border-black/20 uppercase">MULAI MISI ▶️</button>
           <div class="h-12"></div>
         </div>
       </div>
 
-      <div id="questionBox" class="hidden absolute top-4 left-1/2 -translate-x-1/2 z-30 w-[90%] max-w-sm">
-        <div class="bg-indigo-900/90 backdrop-blur border border-indigo-500/50 px-6 py-3 rounded-2xl shadow-xl flex justify-between items-center">
-          <span class="text-indigo-200 text-[10px] font-bold uppercase tracking-widest">Hitung:</span>
-          <span id="questionText" class="text-2xl font-black text-white tracking-widest">?</span>
+      <div id="questionBox" class="hidden absolute top-4 left-1/2 -translate-x-1/2 z-30 w-[92%] max-w-sm">
+        <div class="bg-indigo-900/90 backdrop-blur border-2 border-indigo-400/30 px-6 py-4 rounded-3xl shadow-2xl flex justify-between items-center">
+          <span class="text-indigo-200 text-xs font-black uppercase tracking-tighter">Target:</span>
+          <span id="questionText" class="text-3xl font-black text-white tracking-widest drop-shadow-lg">?</span>
         </div>
       </div>
 
       <div id="gameArea" class="absolute inset-0 z-10 overflow-hidden"></div>
 
-      <div id="playerRocket" class="hidden absolute bottom-6 left-1/2 z-20 pointer-events-none" style="animation: rocketDrive 2s ease-in-out infinite;">
-        <div class="text-7xl block transform -rotate-45">🚀</div>
+      <div id="playerRocket" class="hidden absolute bottom-12 left-1/2 z-20 pointer-events-none" style="animation: rocketDrive 2s ease-in-out infinite;">
+        <div class="text-8xl block transform -rotate-45">🚀</div>
       </div>
 
-      <div id="gameOver" class="hidden absolute inset-0 z-50 bg-slate-900/95 backdrop-blur flex flex-col items-center justify-center p-6 text-center custom-scroll">
-        <div id="endIcon" class="text-8xl mb-4">🏆</div>
-        <h2 id="endTitle" class="text-3xl font-bold text-white mb-2 uppercase">Selesai!</h2>
-        <div class="bg-white/10 rounded-2xl p-6 w-full max-w-xs mb-8 border border-white/10 backdrop-blur-md">
-          <div id="finalScore" class="text-6xl font-black text-yellow-400 mb-4">0</div>
-          <div class="flex justify-center gap-6 text-sm font-bold">
+      <div id="gameOver" class="hidden absolute inset-0 z-50 bg-slate-900/98 backdrop-blur flex flex-col items-center justify-center p-6 text-center custom-scroll">
+        <div id="endIcon" class="text-9xl mb-4">🏆</div>
+        <h2 id="endTitle" class="text-4xl font-black text-white mb-2 uppercase italic">Misi Selesai!</h2>
+        <div class="bg-white/5 rounded-3xl p-8 w-full max-w-xs mb-8 border border-white/10 backdrop-blur-xl shadow-2xl">
+          <div id="finalScore" class="text-7xl font-black text-yellow-400 mb-6 drop-shadow-lg">0</div>
+          <div class="flex justify-center gap-8 text-lg font-black tracking-widest">
             <span class="text-green-400">✓ <span id="finalCorrect">0</span></span>
             <span class="text-red-400">✗ <span id="finalWrong">0</span></span>
           </div>
         </div>
-        <button onclick="resetGame()" class="w-full max-w-xs py-4 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-lg shadow-lg active:scale-95 transition-all">Main Lagi 🔄</button>
+        <button onclick="resetGame()" class="w-full max-w-xs py-5 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-black text-xl shadow-2xl active:scale-95 transition-all border-b-4 border-black/20">MAIN LAGI 🔄</button>
       </div>
 
     </main>
 
-    <footer class="relative z-30 flex-none py-3 text-center bg-slate-900/50 border-t border-white/5">
-        <span class="text-[11px] font-bold tracking-[0.3em] text-white/30 uppercase italic">mathnology</span>
+    <footer class="relative z-30 flex-none py-4 text-center bg-slate-900/80 border-t border-white/5">
+        <span class="text-[12px] font-black tracking-[0.4em] text-white/20 uppercase italic">mathnology</span>
     </footer>
 
   </div>
@@ -180,156 +183,59 @@
       questionSequence: []
     };
 
+    // --- AUDIO & LATAR MUSIK API ---
+    const bgMusic = new Audio('https://raw.githubusercontent.com/mathnology10/UFO-Perkalian/main/Racing%20Through%20Asteroids%20-%20Jchristoph%20Buenavista.mp3');
+    bgMusic.loop = true;
+    bgMusic.volume = 0.5;
+
     const sfxCorrect = new Audio('https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3');
     const sfxWrong = new Audio('https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3');
     const sfxMenu = new Audio('https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3');
 
+    // Pre-load audio
+    [sfxCorrect, sfxWrong, sfxMenu].forEach(audio => {
+      audio.load();
+      audio.volume = 0.7;
+    });
+
+    // Stars background
     const starBg = document.getElementById('starBg');
-    for(let i=0; i<40; i++) {
+    for(let i=0; i<45; i++) {
       const d = document.createElement('div');
       d.className = 'star';
-      const size = Math.random() * 2 + 1;
+      const size = Math.random() * 2.5 + 1;
       d.style.width = size + 'px'; d.style.height = size + 'px';
       d.style.left = Math.random() * 100 + '%'; d.style.top = Math.random() * 100 + '%';
-      d.style.animation = `moveStars ${Math.random() * 10 + 5}s linear infinite`;
+      d.style.animation = `moveStars ${Math.random() * 12 + 6}s linear infinite`;
       starBg.appendChild(d);
     }
 
+    // FUNGSI MEMILIH MENU DENGAN SUARA & AKTIVASI MUSIK
     function selectLevel(num) {
-      sfxMenu.currentTime = 0; sfxMenu.play().catch(() => {});
+      // AKTIFKAN LATAR MUSIK PADA INTERAKSI PERTAMA
+      if (bgMusic.paused) {
+        bgMusic.play().catch(() => { console.log("Musik tertunda kebijakan browser."); });
+      }
+
+      sfxMenu.currentTime = 0;
+      sfxMenu.play().catch(() => {});
+
       state.level = num;
       document.querySelectorAll('.lvl-btn').forEach(btn => {
-        btn.classList.remove('bg-yellow-500', 'text-black');
-        btn.classList.add('bg-indigo-600', 'text-white');
+        btn.classList.remove('bg-yellow-400', 'text-black', 'ring-4', 'ring-yellow-300/40', 'border-yellow-600');
+        btn.classList.add('bg-indigo-600', 'text-white', 'border-indigo-800');
         if(parseInt(btn.innerText) === num) {
-          btn.classList.add('bg-yellow-500', 'text-black');
-          btn.classList.remove('bg-indigo-600', 'text-white');
+          btn.classList.add('bg-yellow-400', 'text-black', 'ring-4', 'ring-yellow-300/40', 'border-yellow-600');
+          btn.classList.remove('bg-indigo-600', 'text-white', 'border-indigo-800');
         }
       });
       const startBtn = document.getElementById('startBtn');
       startBtn.disabled = false;
       startBtn.classList.replace('bg-gray-600', 'bg-green-500');
-      startBtn.classList.replace('text-gray-300', 'text-white');
-      document.getElementById('selectionMsg').innerText = `Perkalian ${num} dipilih!`;
+      startBtn.classList.replace('text-gray-400', 'text-white');
+      document.getElementById('selectionMsg').innerText = `Perkalian ${num} siap diluncurkan! 🚀`;
     }
 
     function startGame() {
-      [sfxCorrect, sfxWrong, sfxMenu].forEach(s => {
-        s.play().then(() => { s.pause(); s.currentTime = 0; }).catch(() => {});
-      });
-
-      state.questionSequence = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].sort(() => Math.random() - 0.5);
-      state.active = true; state.score = 0; state.lives = 2; state.qIndex = 0; state.correct = 0; state.wrong = 0;
-      updateStats();
-      document.getElementById('startScreen').classList.add('hidden');
-      document.getElementById('gameOver').classList.add('hidden');
-      document.getElementById('questionBox').classList.remove('hidden');
-      document.getElementById('playerRocket').classList.remove('hidden');
-      nextQuestion();
-    }
-
-    function updateStats() {
-      document.getElementById('score').innerText = state.score;
-      document.getElementById('qNum').innerText = (state.qIndex + 1) + '/10';
-      document.getElementById('livesDisplay').innerText = '❤️'.repeat(Math.max(0, state.lives)) + '💀'.repeat(Math.max(0, 2 - state.lives));
-    }
-
-    function nextQuestion() {
-      if(!state.active) return;
-      document.getElementById('gameArea').innerHTML = '';
-      const multiplicand = state.questionSequence[state.qIndex];
-      const answer = state.level * multiplicand;
-      document.getElementById('questionText').innerText = `${state.level} × ${multiplicand}`;
-
-      let options = [answer];
-      while(options.length < 3) {
-        let fake = answer + (Math.floor(Math.random() * 10) - 5);
-        if(fake > 0 && !options.includes(fake)) options.push(fake);
-      }
-      options.sort(() => Math.random() - 0.5);
-      spawnUFOs(options, answer);
-    }
-
-    function spawnUFOs(options, correctAnswer) {
-      const container = document.getElementById('gameArea');
-      const xPositions = [25, 50, 75]; 
-      options.forEach((opt, index) => {
-        const ufo = document.createElement('div');
-        ufo.className = 'ufo-container flex flex-col items-center w-max';
-        const colors = ['#f472b6', '#34d399', '#60a5fa'];
-        ufo.innerHTML = `
-          <div class="text-5xl filter drop-shadow-md">🛸</div>
-          <div class="mt-[-5px] bg-slate-900/90 border-2 px-3 py-1 rounded-full font-bold text-white min-w-[3.5rem] text-center backdrop-blur-sm shadow-lg" style="border-color: ${colors[index]}">
-            ${opt}
-          </div>
-        `;
-        ufo.style.left = xPositions[index] + '%';
-        ufo.style.top = '30%'; 
-        ufo.style.animation = `popIn 0.5s ease ${index * 0.1}s forwards, floatUFO 3s ease-in-out ${index * 0.2}s infinite`;
-        ufo.onclick = () => checkAnswer(opt, correctAnswer, ufo);
-        container.appendChild(ufo);
-      });
-    }
-
-    function checkAnswer(selected, correct, element) {
-      if(element.classList.contains('exploding')) return;
-      if(selected === correct) {
-        sfxCorrect.currentTime = 0; sfxCorrect.play().catch(() => {});
-        state.score += 10; state.correct++;
-        element.classList.add('exploding');
-        setTimeout(() => {
-          state.qIndex++;
-          if(state.qIndex >= 10) endGame(true);
-          else { updateStats(); nextQuestion(); }
-        }, 500);
-      } else {
-        sfxWrong.currentTime = 0; sfxWrong.play().catch(() => {});
-        state.wrong++; state.lives--;
-        element.querySelector('div:last-child').style.backgroundColor = '#ef4444';
-        updateStats();
-        if(state.lives <= 0) setTimeout(() => endGame(false), 500);
-        else {
-          setTimeout(() => {
-            state.qIndex++;
-            if(state.qIndex >= 10) endGame(true);
-            else { updateStats(); nextQuestion(); }
-          }, 500);
-        }
-      }
-    }
-
-    function endGame(isWin) {
-      state.active = false;
-      document.getElementById('questionBox').classList.add('hidden');
-      document.getElementById('playerRocket').classList.add('hidden');
-      document.getElementById('gameArea').innerHTML = '';
-      const endTitle = document.getElementById('endTitle');
-      const endIcon = document.getElementById('endIcon');
-      if(isWin) {
-        endIcon.innerText = "🏆"; endTitle.innerText = "Misi Sukses!";
-        endTitle.className = "text-3xl font-black text-green-400 mb-2 uppercase";
-      } else {
-        endIcon.innerText = "💥"; endTitle.innerText = "Misi Gagal";
-        endTitle.className = "text-3xl font-black text-red-400 mb-2 uppercase";
-      }
-      document.getElementById('finalScore').innerText = state.score;
-      document.getElementById('finalCorrect').innerText = state.correct;
-      document.getElementById('finalWrong').innerText = state.wrong;
-      document.getElementById('gameOver').classList.remove('hidden');
-    }
-
-    function resetGame() {
-      sfxMenu.currentTime = 0; sfxMenu.play().catch(() => {});
-      document.getElementById('gameOver').classList.add('hidden');
-      document.getElementById('startScreen').classList.remove('hidden');
-      document.getElementById('startBtn').disabled = true;
-      document.getElementById('startBtn').className = "w-full max-w-xs py-4 rounded-full bg-gray-600 text-gray-300 font-bold text-xl shadow-lg";
-      document.getElementById('selectionMsg').innerText = "Pilih angka di atas";
-      document.querySelectorAll('.lvl-btn').forEach(btn => {
-        btn.classList.remove('bg-yellow-500', 'text-black');
-        btn.classList.add('bg-indigo-600', 'text-white');
-      });
-    }
-  </script>
-</body>
-</html>
+      // Pastikan semua audio ter-unlock
+      [sfxCorrect,
