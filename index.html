@@ -41,16 +41,19 @@
       opacity: 0.5;
     }
 
+    /* UFO Tetap Rata Tengah */
     @keyframes floatUFO {
       0%, 100% { transform: translateX(-50%) translateY(0) rotate(-2deg); }
       50% { transform: translateX(-50%) translateY(-15px) rotate(2deg); }
     }
 
+    /* Roket Menu */
     @keyframes floatMenuRocket {
       0%, 100% { transform: translateY(0) rotate(-5deg); }
-      50% { transform: translateY(-25px) rotate(5deg); }
+      50% { transform: translateY(-20px) rotate(5deg); }
     }
 
+    /* Roket Gameplay */
     @keyframes rocketDrive {
       0%, 100% { transform: translateX(-50%) scale(1); filter: drop-shadow(0 0 15px rgba(34,211,238,0.5)); }
       50% { transform: translateX(-50%) scale(1.05) translateY(-5px); filter: drop-shadow(0 0 30px rgba(34,211,238,1)); }
@@ -106,10 +109,9 @@
             </div>
         </div>
         <h1 class="text-4xl font-black mb-2 tracking-tighter text-white uppercase italic glow-text">UFO PERKALIAN</h1>
-        <p class="text-lg font-bold text-cyan-400 mb-4 tracking-[0.2em] uppercase">by mathnology</p>
-        <p class="text-sm text-red-400 font-bold mb-12 uppercase tracking-widest">NYAWA TERSEDIA: 2 ❤️❤️</p>
+        <p class="text-lg font-bold text-cyan-400 mb-16 tracking-[0.2em] uppercase">by mathnology</p>
         
-        <button id="startAppBtn" onclick="showMenu()" class="lvl-btn px-12 py-5 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-black text-2xl shadow-[0_0_20px_rgba(6,182,212,0.5)] active:scale-95 transition-all border-b-4 border-black/30 animate-pulse">
+        <button onclick="showMenu()" class="lvl-btn px-12 py-5 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-black text-2xl shadow-[0_0_20px_rgba(6,182,212,0.5)] active:scale-95 transition-all border-b-4 border-black/30 animate-pulse uppercase">
             START
         </button>
     </div>
@@ -165,10 +167,23 @@
              <button onclick="selectLevel(10)" class="lvl-btn aspect-square rounded-xl bg-indigo-600 border-b-4 border-indigo-900 font-bold text-xl text-white shadow-lg active:scale-90 transition-transform">10</button>
           </div>
 
-          <div id="selectionMsg" class="h-6 text-yellow-300 font-bold mb-4 text-sm tracking-wide">Pilih level untuk memulai!</div>
-          <button id="startBtn" onclick="startGame()" disabled class="lvl-btn w-full max-w-xs py-4 rounded-full bg-gray-600 text-gray-400 font-black text-xl shadow-xl border-b-4 border-black/20 uppercase">MULAI PERMAINAN ▶️</button>
+          <div id="selectionMsg" class="h-6 text-yellow-300 font-bold mb-6 text-sm tracking-wide">Pilih level untuk memulai!</div>
+          
+          <div id="actionButtons" class="hidden flex flex-col gap-3 w-full max-w-xs">
+            <button onclick="showStudy()" class="lvl-btn py-4 rounded-xl bg-cyan-500 text-white font-black text-xl shadow-lg active:scale-95 border-b-4 border-cyan-700 uppercase">📖 BELAJAR</button>
+            <button id="startBtn" onclick="startGame()" class="lvl-btn py-4 rounded-full bg-green-500 text-white font-black text-xl shadow-xl active:scale-95 border-b-4 border-black/20 uppercase">MULAI MAIN ▶️</button>
+          </div>
           <div class="h-12"></div>
         </div>
+      </div>
+
+      <div id="studyScreen" class="hidden absolute inset-0 z-[250] bg-slate-900/98 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center custom-scroll">
+        <h2 id="studyTitle" class="text-3xl font-black text-cyan-400 mb-6 uppercase italic glow-text">TABEL PERKALIAN</h2>
+        
+        <div id="tableContent" class="bg-indigo-950 border-2 border-cyan-500/50 rounded-3xl p-8 grid grid-cols-2 gap-x-8 gap-y-3 mb-8 text-xl font-bold font-mono tracking-tighter shadow-[0_0_40px_rgba(6,182,212,0.3)]">
+            </div>
+
+        <button onclick="hideStudy()" class="lvl-btn px-10 py-4 rounded-xl bg-red-500 text-white font-black text-lg shadow-lg active:scale-95 border-b-4 border-red-800">TUTUP ✖</button>
       </div>
 
       <div id="questionBox" class="hidden absolute top-4 left-1/2 -translate-x-1/2 z-40 w-[90%] max-w-sm">
@@ -187,9 +202,9 @@
       <div id="gameOver" class="hidden absolute inset-0 z-[200] bg-slate-900/98 backdrop-blur flex flex-col items-center justify-center p-6 text-center custom-scroll">
         <div id="endIcon" class="text-8xl mb-4">🏆</div>
         <h2 id="endTitle" class="text-3xl font-black text-white mb-2 uppercase italic">SELESAI!</h2>
-        <div class="bg-white/5 rounded-3xl p-6 w-full max-w-xs mb-8 border border-white/10">
+        <div class="bg-indigo-950 rounded-3xl p-6 w-full max-w-xs mb-8 border border-white/10 shadow-2xl">
           <div id="finalScore" class="text-6xl font-black text-yellow-400 mb-4">0</div>
-          <div class="flex justify-center gap-6 text-sm font-bold tracking-widest uppercase">
+          <div class="flex justify-center gap-6 text-sm font-bold tracking-widest uppercase text-white/80">
             <span class="text-green-400">✓ <span id="finalCorrect">0</span></span>
             <span class="text-red-400">✗ <span id="finalWrong">0</span></span>
           </div>
@@ -211,10 +226,8 @@
       questionSequence: [], isLocked: false
     };
 
-    // --- AUDIO API ---
     const bgMusic = new Audio('https://raw.githubusercontent.com/mathnology10/UFO-Perkalian/main/Racing%20Through%20Asteroids%20-%20Jchristoph%20Buenavista.mp3');
-    bgMusic.loop = true;
-    bgMusic.volume = 0.4;
+    bgMusic.loop = true; bgMusic.volume = 0.4;
 
     const sfxCorrect = new Audio('https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3');
     const sfxWrong = new Audio('https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3');
@@ -222,7 +235,6 @@
     sfxMenu.volume = 1.0;
     const sfxStart = new Audio('https://assets.mixkit.co/active_storage/sfx/232/232-preview.mp3');
 
-    // Bintang background
     const starContainer = document.getElementById('starBg');
     for(let i=0; i<40; i++) {
       const s = document.createElement('div');
@@ -236,9 +248,7 @@
 
     function showMenu() {
         bgMusic.play().catch(() => {});
-        sfxMenu.currentTime = 0;
-        sfxMenu.play().catch(() => {});
-
+        sfxMenu.currentTime = 0; sfxMenu.play().catch(() => {});
         document.getElementById('openingScreen').classList.add('hidden');
         document.getElementById('startScreen').classList.remove('hidden');
         document.getElementById('gameHeader').classList.remove('hidden');
@@ -246,11 +256,8 @@
 
     function selectLevel(num) {
       if (bgMusic.paused) bgMusic.play().catch(() => {});
-      sfxMenu.currentTime = 0;
-      sfxMenu.play().catch(() => {});
-
+      sfxMenu.currentTime = 0; sfxMenu.play().catch(() => {});
       state.level = num;
-      
       document.querySelectorAll('.lvl-btn').forEach(btn => {
         if(btn.innerText.length <= 2) {
             btn.classList.remove('bg-yellow-400', 'text-black', 'ring-4', 'ring-yellow-300/50');
@@ -261,33 +268,42 @@
             }
         }
       });
+      document.getElementById('actionButtons').classList.remove('hidden');
+      document.getElementById('selectionMsg').innerText = `Level ${num} dipilih! 🚀`;
+    }
 
-      const startBtn = document.getElementById('startBtn');
-      startBtn.disabled = false;
-      startBtn.classList.replace('bg-gray-600', 'bg-green-500');
-      startBtn.classList.replace('text-gray-400', 'text-white');
-      document.getElementById('selectionMsg').innerText = `Perkalian ${num} dipilih! 🚀`;
+    function showStudy() {
+        sfxMenu.currentTime = 0; sfxMenu.play().catch(() => {});
+        const tableDiv = document.getElementById('tableContent');
+        const title = document.getElementById('studyTitle');
+        tableDiv.innerHTML = '';
+        title.innerText = `TABEL PERKALIAN ${state.level}`;
+        for(let i=1; i<=10; i++) {
+            const line = document.createElement('div');
+            line.innerHTML = `<span class="text-cyan-400">${state.level}</span> × ${i} = <span class="text-yellow-400">${state.level * i}</span>`;
+            tableDiv.appendChild(line);
+        }
+        document.getElementById('studyScreen').classList.remove('hidden');
+    }
+
+    function hideStudy() {
+        sfxMenu.currentTime = 0; sfxMenu.play().catch(() => {});
+        document.getElementById('studyScreen').classList.add('hidden');
     }
 
     function startGame() {
-      sfxStart.currentTime = 0;
-      sfxStart.play().catch(() => {});
-      bgMusic.pause();
-      bgMusic.currentTime = 0;
-
+      sfxStart.currentTime = 0; sfxStart.play().catch(() => {});
+      bgMusic.pause(); bgMusic.currentTime = 0;
       [sfxCorrect, sfxWrong].forEach(s => {
         s.play().then(() => { s.pause(); s.currentTime = 0; }).catch(() => {});
       });
-
       state.questionSequence = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].sort(() => Math.random() - 0.5);
       state.active = true; state.score = 0; state.lives = 2; state.qIndex = 0; state.correct = 0; state.wrong = 0;
-      
       updateStats();
       document.getElementById('startScreen').classList.add('hidden');
       document.getElementById('gameOver').classList.add('hidden');
       document.getElementById('questionBox').classList.remove('hidden');
       document.getElementById('playerRocket').classList.remove('hidden');
-      
       setTimeout(nextQuestion, 500);
     }
 
@@ -304,7 +320,6 @@
       const multiplicand = state.questionSequence[state.qIndex];
       const answer = state.level * multiplicand;
       document.getElementById('questionText').innerText = `${state.level} × ${multiplicand}`;
-
       let options = [answer];
       while(options.length < 3) {
         let fake = answer + (Math.floor(Math.random() * 10) - 5);
@@ -323,7 +338,7 @@
         const colors = ['#f472b6', '#34d399', '#60a5fa'];
         ufo.innerHTML = `
           <div class="text-6xl drop-shadow-xl">🛸</div>
-          <div class="mt-[-8px] bg-slate-900/95 border-2 px-4 py-2 rounded-full font-black text-white min-w-[4rem] text-center shadow-lg" style="border-color: ${colors[index]}">
+          <div class="mt-[-8px] bg-slate-900/95 border-2 px-4 py-2 rounded-full font-black text-white min-w-[4rem] text-center" style="border-color: ${colors[index]}">
             ${opt}
           </div>
         `;
@@ -338,7 +353,6 @@
     function checkAnswer(selected, correct, element) {
       if(state.isLocked || !state.active) return;
       state.isLocked = true;
-
       if(selected === correct) {
         sfxCorrect.currentTime = 0; sfxCorrect.play().catch(() => {});
         state.score += 10; state.correct++;
@@ -355,11 +369,7 @@
         updateStats();
         setTimeout(() => {
           if(state.lives <= 0) endGame(false);
-          else {
-            state.qIndex++;
-            if(state.qIndex >= 10) endGame(true);
-            else nextQuestion();
-          }
+          else { state.qIndex++; if(state.qIndex >= 10) endGame(true); else nextQuestion(); }
         }, 500);
       }
     }
@@ -387,11 +397,9 @@
     function resetGame() {
       bgMusic.play().catch(() => {});
       sfxMenu.currentTime = 0; sfxMenu.play().catch(() => {});
-      
       document.getElementById('gameOver').classList.add('hidden');
       document.getElementById('startScreen').classList.remove('hidden');
-      document.getElementById('startBtn').disabled = true;
-      document.getElementById('startBtn').className = "lvl-btn w-full max-w-xs py-4 rounded-full bg-gray-600 text-gray-400 font-black text-xl shadow-xl border-b-4 border-black/20 uppercase";
+      document.getElementById('actionButtons').classList.add('hidden');
       document.getElementById('selectionMsg').innerText = "Pilih level untuk memulai!";
       document.querySelectorAll('.lvl-btn').forEach(btn => {
         if(btn.innerText.length <= 2) {
